@@ -15,16 +15,18 @@ static struct cdev cdv;
 static struct class *cls = NULL;
 static volatile u32 *gpio_base = NULL;
 
+const u32 led[8] ={23, 24, 25, 8, 7, 16, 20, 21};
+
 static ssize_t led_write(struct file* frip, const char* buf, size_t count, loff_t* pos){
 	char c;
 	if(copy_from_user(&c, buf, sizeof(char)))
 		return -EFAULT;
 	//printk(KERN_INFO "recived %c\n",c);
 	if(c=='0'){
-		gpio_base[10]=1<<25;
+		gpio_base[10]=1<<23 | 1<<24 | 1<<25 | 1<<8 | 1<<7 | 1<<16 | 1<<20 | 1<<21;
 	}
 	else if(c=='1'){
-		gpio_base[7]=1<<25;
+		gpio_base[7]=1<<23 | 1<<24 | 1<<25 | 1<<8 | 1<<7 | 1<<16 | 1<<20 | 1<<21;
 	}
 	return 1;
 }
@@ -48,7 +50,11 @@ static struct file_operations led_fops = {
 };
 
 static int __init init_mod(void){
+	int i;
 	int retval;
+	u32 index;
+	u32 shift;
+	u32 mask;
 	retval = alloc_chrdev_region(&dev, 0, 1, "my7seg");
 	if(retval < 0){
 		 printk(KERN_ERR "alloc_chrdev_region failed"); 
@@ -70,11 +76,12 @@ static int __init init_mod(void){
 	device_create(cls, NULL, dev, NULL, "my7seg%d", MINOR(dev));
 	gpio_base = ioremap_nocache(0xfe200000, 0xA0);
 	
-	const u32 led = 25;
-	const u32 index = led / 10;
-	const u32 shift = (led % 10)*3;
-	const u32 mask = ~(0x07<<shift);
-	gpio_base[index]=(gpio_base[index]&mask) | (0x1<<shift);
+	for(i=0; i<8; i++){
+		index = led[i]/10;
+		shift = (led[i]%10)*3;
+		mask = ~(0x07 << shift);
+		gpio_base[index]=(gpio_base[index]&mask) | (0x1<<shift);
+	}
 	return 0;
 }
 

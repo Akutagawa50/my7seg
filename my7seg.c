@@ -14,20 +14,53 @@ static dev_t dev;
 static struct cdev cdv;
 static struct class *cls = NULL;
 static volatile u32 *gpio_base = NULL;
+const u32 disp[17] = {
+	63, //0 00111111
+	6,  //1 00000110
+	91, //2 01011011
+	79, //3 01001111
+	102,//4 01100110
+	109,//5 01101101
+	125,//6 01111101
+	7,  //7 00000111
+	127,//8 01111111
+	111,//9 01101111
+	119,//a 01110111
+	124,//b 01111100
+	88, //c 01011000
+	94, //d 01011110
+	121,//e 01111001
+	113,//f 01110001
+	128//.0 10000000
 
-const u32 led[8] ={23, 24, 25, 8, 7, 16, 20, 21};
+};
+const u32 led[8] ={21, 20, 24, 25, 8, 16, 7, 23};
 
 static ssize_t led_write(struct file* frip, const char* buf, size_t count, loff_t* pos){
+	int i;
+	int num;
 	char c;
+	u32 sum = 0;
+	u32 reset = 0;
 	if(copy_from_user(&c, buf, sizeof(char)))
 		return -EFAULT;
 	//printk(KERN_INFO "recived %c\n",c);
-	if(c=='0'){
-		gpio_base[10]=1<<23 | 1<<24 | 1<<25 | 1<<8 | 1<<7 | 1<<16 | 1<<20 | 1<<21;
-	}
-	else if(c=='1'){
-		gpio_base[7]=1<<23 | 1<<24 | 1<<25 | 1<<8 | 1<<7 | 1<<16 | 1<<20 | 1<<21;
-	}
+	if(c=='\n' || c==' ')return 1;
+	else if(c >= 48 && c <= 57) num = (int)c - 48;
+	else if(c >= 65 && c <= 70) num = (int)c - 55;
+	else if(c >= 97 && c <= 102) num = (int)c - 87;
+	else num = 16;
+
+	for(i=0; i<8; i++){
+		//reset += 1 << led[i];
+		if((disp[num] >> i) & 1)
+			sum += 1 << led[i];
+		else
+			reset += 1 << led[i];
+	}	
+	gpio_base[7] = sum;
+	gpio_base[10] = reset;
+	sum = 0;
 	return 1;
 }
 
@@ -55,6 +88,7 @@ static int __init init_mod(void){
 	u32 index;
 	u32 shift;
 	u32 mask;
+	u32 reset=0;
 	retval = alloc_chrdev_region(&dev, 0, 1, "my7seg");
 	if(retval < 0){
 		 printk(KERN_ERR "alloc_chrdev_region failed"); 
@@ -81,7 +115,9 @@ static int __init init_mod(void){
 		shift = (led[i]%10)*3;
 		mask = ~(0x07 << shift);
 		gpio_base[index]=(gpio_base[index]&mask) | (0x1<<shift);
+		reset += 1<<led[i];
 	}
+	gpio_base[10] = reset;
 	return 0;
 }
 

@@ -10,7 +10,7 @@
 #include <linux/uaccess.h>
 #include <linux/io.h>
 
-MODULE_AUTHOR("Ryusuke Ihashi, Ryuichi Ueda");
+MODULE_AUTHOR("Ryusuke Ihashi and Ryuichi Ueda");
 MODULE_DESCRIPTION("driver for 7segment LED control");
 MODULE_LICENSE("GPL");
 MODULE_VERSION("0.0.1");
@@ -19,6 +19,8 @@ static dev_t dev;
 static struct cdev cdv;
 static struct class *cls = NULL;
 static volatile u32 *gpio_base = NULL;
+static char c='*';
+static int read_flag = 0;
 const u32 disp[17] = {
 	63, //0 00111111
 	6,  //1 00000110
@@ -44,13 +46,14 @@ const u32 led[8] ={21, 20, 24, 25, 8, 16, 7, 23};
 static ssize_t led_write(struct file* frip, const char* buf, size_t count, loff_t* pos){
 	int i;
 	int num;
-	char c;
+	char c0=c;
+	//char c;
 	u32 sum = 0;
 	u32 reset = 0;
 	if(copy_from_user(&c, buf, sizeof(char)))
 		return -EFAULT;
 	//printk(KERN_INFO "recived %c\n",c);
-	if(c=='\n' || c==' ')return 1;
+	if(c=='\n' || c==' '){ c=c0; return 1;}
 	else if(c >= 48 && c <= 57) num = (int)c - 48;
 	else if(c >= 65 && c <= 70) num = (int)c - 55;
 	else if(c >= 97 && c <= 102) num = (int)c - 87;
@@ -62,21 +65,27 @@ static ssize_t led_write(struct file* frip, const char* buf, size_t count, loff_
 			sum += 1 << led[i];
 		else
 			reset += 1 << led[i];
-	}	
+	}
+	printk(KERN_INFO "c == %c", c);	
 	gpio_base[7] = sum;
 	gpio_base[10] = reset;
 	sum = 0;
 	return 1;
 }
 
-static ssize_t sushi_read(struct file* flip, char* buf , size_t count, loff_t* pos){
+static ssize_t led_read(struct file* flip, char* buf , size_t count, loff_t* pos){
 	int size = 0;
-	char sushi[]={'s', 'u', 's', 'h', 'i'};
-	if(copy_to_user(buf+size, (const char *)sushi, sizeof(sushi))){	
-		printk(KERN_ERR "sushi:copy_to_user failed.\n");
+	char s[]={ c, '\n'};
+	if(copy_to_user(buf+size, (const char *) s, sizeof(s))){	
+		printk(KERN_ERR "copy_to_user failed.\n");
 		return -EFAULT;
 	}
-	size += sizeof(sushi);
+	size += sizeof(s);
+	if(read_flag){
+		read_flag = 0;
+		return 0;
+	}
+	read_flag=1;
 	return size;
 		
 }
@@ -84,7 +93,7 @@ static ssize_t sushi_read(struct file* flip, char* buf , size_t count, loff_t* p
 static struct file_operations led_fops = {
 	.owner = THIS_MODULE,
 	.write = led_write,
-	.read = sushi_read
+	.read = led_read
 };
 
 static int __init init_mod(void){

@@ -3,6 +3,8 @@
 //my7seg/my7seg.c
 //
 //Copyright (C) 2020 Ryusuke Ihashi, Ryuichi Ueda
+
+
 #include <linux/module.h>
 #include <linux/fs.h>
 #include <linux/cdev.h>
@@ -47,12 +49,11 @@ static ssize_t led_write(struct file* frip, const char* buf, size_t count, loff_
 	int i;
 	int num;
 	char c0=c;
-	//char c;
+
 	u32 sum = 0;
 	u32 reset = 0;
 	if(copy_from_user(&c, buf, sizeof(char)))
 		return -EFAULT;
-	//printk(KERN_INFO "recived %c\n",c);
 	if(c=='\n' || c==' '){ c=c0; return 1;}
 	else if(c >= 48 && c <= 57) num = (int)c - 48;
 	else if(c >= 65 && c <= 70) num = (int)c - 55;
@@ -60,7 +61,6 @@ static ssize_t led_write(struct file* frip, const char* buf, size_t count, loff_
 	else num = 16;
 
 	for(i=0; i<8; i++){
-		//reset += 1 << led[i];
 		if((disp[num] >> i) & 1)
 			sum += 1 << led[i];
 		else

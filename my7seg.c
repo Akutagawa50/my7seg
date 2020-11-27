@@ -1,3 +1,8 @@
+//SPDX-License-Identifier: GPL-3.0
+//
+//my7seg/my7seg.c
+//
+//Copyright (C) 2020 Ryusuke Ihashi, Ryuichi Ueda
 #include <linux/module.h>
 #include <linux/fs.h>
 #include <linux/cdev.h>
@@ -5,7 +10,7 @@
 #include <linux/uaccess.h>
 #include <linux/io.h>
 
-MODULE_AUTHOR("Ryusuke Ihashi");
+MODULE_AUTHOR("Ryusuke Ihashi, Ryuichi Ueda");
 MODULE_DESCRIPTION("driver for 7segment LED control");
 MODULE_LICENSE("GPL");
 MODULE_VERSION("0.0.1");

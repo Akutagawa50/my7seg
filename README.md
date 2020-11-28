@@ -1,7 +1,7 @@
 # my7seg
 ## 概要
-my7segは名前の通り7セグメントLEDを制御するデバイスドライバである．
-
+my7segは名前の通り7セグメントLEDを制御するデバイスドライバである．\
+動作動画　https://youtu.be/oA6VUcjMmJ4
 ## 環境
 * ハードウェア\
 Raspberry Pi 4 Model B

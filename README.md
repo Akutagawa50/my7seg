@@ -23,7 +23,7 @@ Raspberry Pi 4 Model B
 `git clone https://github.com/Akutagawa50/my7seg.git`
 <br>
 
-2. に移動する\
+2. my7segに移動する\
 `cd my7seg`
 <br>
 

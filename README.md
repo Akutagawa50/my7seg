@@ -20,22 +20,33 @@ Raspberry Pi 4 Model B
 ## 準備
 1. このリポジトリのクローンを作成する\
 `git clone https://github.com/Akutagawa50/my7seg.git`
+<br>
+
 2. ディレクトリを移動する\
 `cd my7seg`
+<br>
+
 3. makeコマンドを実行する\
 `make`
-4. カーネルモジュールをインストールする
+<br>
+4. カーネルモジュールをインストールする\
 `sudo insmod my7seg.ko`\
 このときLEDが全消灯する\
+<br>
+
 アンインストールするときは\
 `sudo rmmod my7seg`
+<br>
+
 5. できたデバイスドライバに権限を付与して準備完了
 `sudo chmod 666 /dev/my7seg0`
+<br>
 
 ## 使い方
 * LEDに出力するとき
 aを出力するとき\
 `echo a >> /dev/my7seg0`
+<br>
 
 * 最後に入力した文字を確認するとき\
 `cat /dev/my7seg0`\

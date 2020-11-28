@@ -37,7 +37,8 @@ Raspberry Pi 4 Model B
 aを出力するとき\
 `echo a >> /dev/my7seg0`
 
-* 最後に入力した文字を確認するとき
+* 最後に入力した文字を確認するとき\
 `cat /dev/my7seg0`\
-`a               `
+出力結果
+`a`
 

@@ -29,6 +29,7 @@ Raspberry Pi 4 Model B
 3. makeコマンドを実行する\
 `make`
 <br>
+
 4. カーネルモジュールをインストールする\
 `sudo insmod my7seg.ko`\
 このときLEDが全消灯する\

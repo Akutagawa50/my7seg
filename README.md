@@ -38,7 +38,12 @@ Raspberry Pi 4 Model B
 `sudo chmod 666 /dev/my7seg0`
 <br>
 
-6. カーネルモジュールをアンインストールする場合
+6. その他のコマンド\
+* ログを見たい場合\
+``
+<br>
+
+* カーネルモジュールをアンインストールする場合\
 `sudo rmmod my7seg`
 <br>
 

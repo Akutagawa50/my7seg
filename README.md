@@ -60,5 +60,6 @@ aを出力するとき\
 `a`
 
 ## ライセンス
-GPL 3
+このリポジトリはGPLv3が付与されています．\
+詳しくはこちらから [COPYING](https://github.com/Akutagawa50/my7seg/blob/main/COPYING)
 

@@ -2,7 +2,7 @@
 //
 //my7seg/my7seg.c
 //
-//Copyright (C) 2020 Ryusuke Ihashi and Ryuichi Ueda
+//Copyright (C) 2020 Ryuichi Ueda and Ryusuke Ihashi 
 
 
 #include <linux/module.h>
@@ -12,7 +12,7 @@
 #include <linux/uaccess.h>
 #include <linux/io.h>
 
-MODULE_AUTHOR("Ryusuke Ihashi and Ryuichi Ueda");
+MODULE_AUTHOR("Ryuichi Ueda and Ryusuke Ihashi");
 MODULE_DESCRIPTION("driver for 7segment LED control");
 MODULE_LICENSE("GPL");
 MODULE_VERSION("0.0.1");

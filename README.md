@@ -32,9 +32,7 @@ Raspberry Pi 4 Model B
 
 4. カーネルモジュールをインストールする\
 `sudo insmod my7seg.ko`\
-このときLEDが全消灯する
-
-
+このときLEDが全消灯する\
 アンインストールするときは\
 `sudo rmmod my7seg`
 <br>

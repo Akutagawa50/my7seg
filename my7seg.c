@@ -75,7 +75,7 @@ static ssize_t led_write(struct file* frip, const char* buf, size_t count, loff_
 		else
 			reset += 1 << led[i];
 	}
-	printk(KERN_INFO "c == %c", c);	
+	
 	gpio_base[7] = sum;
 	gpio_base[10] = reset;
 	sum = 0;

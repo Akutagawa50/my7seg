@@ -38,7 +38,6 @@ aを出力するとき\
 `echo a >> /dev/my7seg0`
 
 * 最後に入力した文字を確認するとき
-```
-cat /dev/my7seg0
-a
-```
+`cat /dev/my7seg0`\
+`a               `
+

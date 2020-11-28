@@ -45,14 +45,12 @@ const u32 disp[17] = {
 };
 /*-----------------------------------//
 7segmentLED       const u32 led[8]
-   
-   a		const u32 led[8] ={dp, g, f, e, d, c, b, a};	
- f   b
-   g
- e   c
-   d    dp
-
-
+              
+    a		   const u32 led[8] 	
+ f     b          ={dp, g, f, e, d, c, b, a};
+    g         
+ e     c      
+    d     dp   
 //-----------------------------------*/
 const u32 led[8] ={21, 20, 24, 25, 8, 16, 7, 23};
 

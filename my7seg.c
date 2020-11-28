@@ -2,7 +2,7 @@
 //
 //my7seg/my7seg.c
 //
-//Copyright (C) 2020 Ryusuke Ihashi, Ryuichi Ueda
+//Copyright (C) 2020 Ryusuke Ihashi and Ryuichi Ueda
 
 
 #include <linux/module.h>
@@ -21,7 +21,7 @@ static dev_t dev;
 static struct cdev cdv;
 static struct class *cls = NULL;
 static volatile u32 *gpio_base = NULL;
-static char c='*';
+static char c='0';
 static int read_flag = 0;
 const u32 disp[17] = {
 	63, //0 00111111
@@ -40,9 +40,20 @@ const u32 disp[17] = {
 	94, //d 01011110
 	121,//e 01111001
 	113,//f 01110001
-	128//.0 10000000
+	128//. 10000000
 
 };
+/*-----------------------------------//
+7segmentLED       const u32 led[8]
+   
+   a		const u32 led[8] ={dp, g, f, e, d, c, b, a};	
+ f   b
+   g
+ e   c
+   d    dp
+
+
+//-----------------------------------*/
 const u32 led[8] ={21, 20, 24, 25, 8, 16, 7, 23};
 
 static ssize_t led_write(struct file* frip, const char* buf, size_t count, loff_t* pos){

@@ -32,13 +32,13 @@ Raspberry Pi 4 Model B
 
 4. カーネルモジュールをインストールする\
 `sudo insmod my7seg.ko`\
-このときLEDが全消灯する\
+このときLEDが全消灯する
 
 5. できたデバイスドライバに権限を付与して準備完了\
 `sudo chmod 666 /dev/my7seg0`
 <br>
 
-その他のコマンド\
+その他のコマンド
 * ログを見たい場合\
 `tail /var/log/kern.log`
 <br>

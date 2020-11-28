@@ -38,9 +38,9 @@ Raspberry Pi 4 Model B
 `sudo chmod 666 /dev/my7seg0`
 <br>
 
-6. その他のコマンド\
+その他のコマンド\
 * ログを見たい場合\
-``
+`tail /var/log/kern.log`
 <br>
 
 * カーネルモジュールをアンインストールする場合\

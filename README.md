@@ -25,8 +25,11 @@ Raspberry Pi 4 Model B
 3. makeコマンドを実行する\
 `make`
 4. カーネルモジュールをインストールする
-`sudo insmod my7seg.ko`
-アンインストールするときは
+`sudo insmod my7seg.ko`\
+このときLEDが0になる\
+アンインストールするときは\
 `sudo rmmod my7seg`
-5. 
+5. できたデバイスドライバに権限を付与して準備完了
+`sudo chmod 666 /dev/my7seg0`
 
+## 使い方
